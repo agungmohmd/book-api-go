@@ -16,6 +16,7 @@ func (route BookRoute) RegisterRoute() {
 	r := route.RouterGroup.Group("/api/book")
 
 	r.Get("", handler.SelectAll)
+	r.Get("findsome", handler.FindAll)
 	r.Get("/id/:id", handler.FindById)
 	r.Post("", handler.Add)
 	r.Put("/id/:id", handler.Edit)

@@ -1,9 +1,13 @@
 package handlers
 
 import (
+	// "context"
+	"fmt"
 	"net/http"
 	"strconv"
 
+	"github.com/agungmohmd/books-api/pkg/str"
+	"github.com/agungmohmd/books-api/repository/models"
 	request "github.com/agungmohmd/books-api/server/requests"
 	"github.com/agungmohmd/books-api/usecase"
 	"github.com/gofiber/fiber/v2"
@@ -22,6 +26,25 @@ func (h *BookHandler) SelectAll(ctx *fiber.Ctx) error {
 	bookUc := usecase.BookUC{ContractUC: h.ContractUC}
 	res, err := bookUc.SelectAll(keyword)
 	return h.SendResponse(ctx, res, nil, err, 0)
+}
+
+// FindAll...
+func (h *BookHandler) FindAll(ctx *fiber.Ctx) error {
+	// c := ctx.Locals("ctx").(context.Context)
+	parameter := models.BookParameter{
+		Search: ctx.Query("search"),
+		Page:   str.StringToInt(ctx.Query("page")),
+		Limit:  str.StringToInt(ctx.Query("limit")),
+		By:     ctx.Query("by"),
+		Sort:   ctx.Query("sort"),
+	}
+	fmt.Println(parameter.Limit)
+	uc := usecase.BookUC{ContractUC: h.ContractUC}
+	res, p, err := uc.FindAll(parameter)
+	if err != nil {
+		return h.SendResponse(ctx, nil, nil, err.Error(), http.StatusBadRequest)
+	}
+	return h.SendResponse(ctx, res, p, err, 0)
 }
 
 // FindById...
