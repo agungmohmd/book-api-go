@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"time"
 
-	postgresqlpkg "github.com/agungmohmd/books-api/postgresqlPkg"
+	postgresqlpkg "github.com/agungmohmd/books-api/pkg/postgresqlPkg"
 	"github.com/joho/godotenv"
 )
 
